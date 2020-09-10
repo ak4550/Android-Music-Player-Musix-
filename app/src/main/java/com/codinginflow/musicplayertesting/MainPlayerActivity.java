@@ -1,7 +1,10 @@
 package com.codinginflow.musicplayertesting;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -27,7 +30,7 @@ public class MainPlayerActivity extends AppCompatActivity {
 
     private Button player_play_btn, player_previous_btn, player_next_btn;
     private ImageView imgPlayer;
-    private TextView txtStart, txtEnd;
+    private Chronometer txtStart, txtEnd;
     private ArrayList<Song> songList;
     private Song currentSong;
     private int currentSongPosition;
@@ -36,7 +39,7 @@ public class MainPlayerActivity extends AppCompatActivity {
     private Handler animationHandler = new Handler();
     private Handler mHandler;
     private Runnable runnable;
-
+    private NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class MainPlayerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initViews();
         mHandler = new Handler();
+        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
         if(mHandler.hasCallbacks(runnable)){
             mHandler.removeCallbacks(runnable);
@@ -98,10 +102,11 @@ public class MainPlayerActivity extends AppCompatActivity {
                 MyPlayer.clearInstance();
                 mPlayer = MyPlayer.getPlayerInstance();
                 if(--currentSongPosition <= AllSongsAdapter.getListSize()){
-                    Song previousSong = AllSongsAdapter.getSong(currentSongPosition);
-                    changeActionBarTitle(previousSong);
-                    playSong(previousSong);
+                    currentSong = AllSongsAdapter.getSong(currentSongPosition);
+                    changeActionBarTitle(currentSong);
+                    playSong(currentSong);
                 }else{
+                    currentSong = AllSongsAdapter.getSong(AllSongsAdapter.getListSize());
                     changeActionBarTitle(AllSongsAdapter.getSong(AllSongsAdapter.getListSize()));
                     playSong(AllSongsAdapter.getSong(AllSongsAdapter.getListSize()));
                 }
@@ -115,10 +120,11 @@ public class MainPlayerActivity extends AppCompatActivity {
                 MyPlayer.clearInstance();
                 mPlayer = MyPlayer.getPlayerInstance();
                 if(++currentSongPosition <= AllSongsAdapter.getListSize()){
-                    Song nextSong = AllSongsAdapter.getSong(currentSongPosition+1);
-                    changeActionBarTitle(nextSong);
-                    playSong(nextSong);
+                    currentSong = AllSongsAdapter.getSong(currentSongPosition+1);
+                    changeActionBarTitle(currentSong);
+                    playSong(currentSong);
                 }else{
+                    currentSong = AllSongsAdapter.getSong(0);
                     changeActionBarTitle(AllSongsAdapter.getSong(0));
                     playSong(AllSongsAdapter.getSong(0));
                 }
@@ -217,7 +223,7 @@ public class MainPlayerActivity extends AppCompatActivity {
                     try{
                         if(mPlayer.isPlaying()){
                             seekBar.setProgress(mPlayer.getCurrentPosition());
-                            txtStart.setText(String.valueOf(mPlayer.getCurrentPosition()/1000));
+                            txtStart.setBase((mPlayer.getCurrentPosition()/1000));
                             changeSeekBar();
                         }
                     }catch (Exception e){
@@ -227,5 +233,25 @@ public class MainPlayerActivity extends AppCompatActivity {
             };
             mHandler.postDelayed(runnable, 1000);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(currentSong.getTrackName())
+                .setContentText(currentSong.getArtistName())
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle())
+                .addAction(R.drawable.ic_previous, "Last Song", null)
+                .addAction(R.drawable.ic_pause_button, "Now Playing", null)
+                .addAction(R.drawable.ic_next, "Next Song", null)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .build();
+
+        notificationManager.notify(10, notification);
+
+        super.onPause();
     }
 }

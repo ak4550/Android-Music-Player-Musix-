@@ -8,13 +8,13 @@ public class Song  {
     private String artistName;
     private String trackPath;
     private boolean isPlaying;
-    private String albumArtPath;
 
-    public Song(String trackName, String artistName, String trackPath, String albumArtPath) {
+
+    public Song(String trackName, String artistName, String trackPath) {
         this.trackName = trackName;
         this.artistName = artistName;
         this.trackPath = trackPath;
-        this.albumArtPath = albumArtPath;
+        //this.albumArtPath = albumArtPath;
         isPlaying = false;
     }
 
@@ -51,11 +51,11 @@ public class Song  {
         this.trackPath = trackPath;
     }
 
-    public String getAlbumArtPath() {
-        return albumArtPath;
-    }
-
-    public void setAlbumArtPath(String albumArtPath) {
-        this.albumArtPath = albumArtPath;
-    }
+//    public String getAlbumArtPath() {
+//        return albumArtPath;
+//    }
+//
+//    public void setAlbumArtPath(String albumArtPath) {
+//        this.albumArtPath = albumArtPath;
+//    }
 }

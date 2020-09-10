@@ -66,10 +66,7 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.txt_song_name.setText(songList.get(position).getTrackName());
         holder.txt_song_artist.setText(songList.get(position).getArtistName());
-        Log.d(TAG, "onBindViewHolder: Album Path " + songList.get(position).getAlbumArtPath());
-        Glide.with(mContext)
-                .load(songList.get(position).getAlbumArtPath())
-                .into(holder.imgAlbum);
+
 
         holder.song_item_container.setOnClickListener(new View.OnClickListener() {
             @Override

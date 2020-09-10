@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.codinginflow.musicplayertesting.adapters.AllSongsAdapter;
+import com.codinginflow.musicplayertesting.utils.MyPlayer;
 import com.codinginflow.musicplayertesting.utils.Song;
 
 import java.util.ArrayList;
@@ -98,21 +99,14 @@ public class MainActivity extends AppCompatActivity  {
                 String artistName = songCursor.getString(songCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
                 String data = songCursor.getString(songCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
 
-                try{
-                    String albumArtPath = songCursor.getString(songCursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ALBUM_ART));
-                    Log.d(TAG, "getAllSongs: Album Path " + albumArtPath);
-                    Song song = new Song(name, artistName, data, albumArtPath);
-                    myList.add(song);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                Song song = new Song(name, artistName, data);
 
 
-//                Log.d(TAG, "getAllSongs: Name : " + name);
-//                Log.d(TAG, "getAllSongs: Artist name: " + artistName);
-//                Log.d(TAG, "getAllSongs: Path : " + data);
+                Log.d(TAG, "getAllSongs: Name : " + name);
+                Log.d(TAG, "getAllSongs: Artist name: " + artistName);
+                Log.d(TAG, "getAllSongs: Path : " + data);
 
-
+                myList.add(song);
 
             }while(songCursor.moveToNext());
 
@@ -144,19 +138,7 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onPause() {
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Notification notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Title")
-                .setContentText("Artist")
-                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle())
-                .addAction(R.drawable.ic_previous, "Last Song", null)
-                .addAction(R.drawable.ic_play_button, "Now Playing", null)
-                .addAction(R.drawable.ic_next, "Next Song", null)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .build();
 
-        notificationManager.notify(10, notification);
 
         super.onPause();
     }
