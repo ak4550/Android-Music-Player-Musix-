@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Music Player Testing</string>
+    <string name="open_drawer_navigation">Open Drawer Navigation</string>
+    <string name="close_drawer_navigation">Close Drawer Navigation</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

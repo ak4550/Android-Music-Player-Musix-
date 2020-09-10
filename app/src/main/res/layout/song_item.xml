@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/song_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
+    android:backgroundTint="#212121">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/imgAlbum"
+            android:layout_width="58dp"
+            android:layout_height="53dp"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/txt_song_name"
+            android:layout_width="247dp"
+            android:layout_height="26.5dp"
+            android:layout_marginLeft="16dp"
+            android:elevation="10dp"
+            android:fitsSystemWindows="true"
+            android:singleLine="true"
+            android:text="TextView"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toEndOf="@+id/imgAlbum"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_song_artist"
+            android:layout_width="0dp"
+            android:layout_height="26.5dp"
+            android:layout_marginLeft="16dp"
+            android:singleLine="true"
+            android:text="TextView"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/equalizer_view"
+            app:layout_constraintStart_toEndOf="@+id/imgAlbum"
+            app:layout_constraintTop_toBottomOf="@+id/txt_song_name" />
+
+        <es.claucookie.miniequalizerlibrary.EqualizerView
+            android:id="@+id/equalizer_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_song_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txt_song_name"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
