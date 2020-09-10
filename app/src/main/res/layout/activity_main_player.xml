@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/player" />
 
-    <Chronometer
+    <TextView
         android:id="@+id/txtStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Chronometer
+    <TextView
         android:id="@+id/txtEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

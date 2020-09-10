@@ -30,7 +30,7 @@ public class MainPlayerActivity extends AppCompatActivity {
 
     private Button player_play_btn, player_previous_btn, player_next_btn;
     private ImageView imgPlayer;
-    private Chronometer txtStart, txtEnd;
+    private TextView txtStart, txtEnd;
     private ArrayList<Song> songList;
     private Song currentSong;
     private int currentSongPosition;
@@ -181,6 +181,7 @@ public class MainPlayerActivity extends AppCompatActivity {
             mPlayer.setDataSource(song.getTrackPath());
             mPlayer.prepare();
             mPlayer.start();
+            txtEnd.setText(getTimeFormat(mPlayer.getDuration()/1000));
             player_play_btn.setBackgroundResource(R.drawable.ic_pause_button);
             animatePlayer();
 
@@ -223,7 +224,7 @@ public class MainPlayerActivity extends AppCompatActivity {
                     try{
                         if(mPlayer.isPlaying()){
                             seekBar.setProgress(mPlayer.getCurrentPosition());
-                            txtStart.setBase((mPlayer.getCurrentPosition()/1000));
+                            txtStart.setText(getTimeFormat(mPlayer.getCurrentPosition()/1000));
                             changeSeekBar();
                         }
                     }catch (Exception e){
@@ -253,5 +254,28 @@ public class MainPlayerActivity extends AppCompatActivity {
         notificationManager.notify(10, notification);
 
         super.onPause();
+    }
+
+    private  String getTimeFormat(int seconds){
+        int hour = 0;
+        int min = 0;
+        int sec = 0;
+        if(seconds < 60){
+            return String.format("%02d:%02d", min, seconds);
+        }
+        if(seconds >= 60){
+            min = seconds / 60;
+            sec = seconds - (min * 60);
+
+            if(min >= 60){
+                hour = min / 60;
+                min = min - (hour * 60);
+            }
+        }
+        if(hour == 0){
+            return String.format("%02d:%02d", min, sec);
+        }else{
+            return String.format("%02d:%02d:%02d", hour, min, sec);
+        }
     }
 }
